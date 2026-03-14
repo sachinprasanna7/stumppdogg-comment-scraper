@@ -203,7 +203,6 @@ Please provide a clean, numbered list (1 to 10). For each selected question, loo
 
 **[Number]. Question from [Author] (Likes: [Number]) [From Video: Actual Video Name]**
 * **The Question:** "[Insert the exact question]"
-* **Why it was chosen:** [Give a very brief, 1-sentence reason explaining its technical/story value and why it is unique from the knowledge base]
 
 Here is the new comment data to analyze:
 {raw_comments_data}
