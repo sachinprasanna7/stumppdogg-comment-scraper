@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 from googleapiclient.discovery import build
 from openai import OpenAI
 import csv
+from send_email import dispatch_stumppdogg_email
 
 # 1. Load variables
 load_dotenv(override=True)
@@ -242,5 +243,8 @@ if __name__ == "__main__":
         if aggregated_file:
             # 3. Get LLM Output
             step_three_call_llm(aggregated_file)
+
+            # 4. Dispatch Email
+            dispatch_stumppdogg_email()
             
     print("--- Run Complete ---")
