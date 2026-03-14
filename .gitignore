@@ -1,0 +1,5 @@
+venv/
+.env
+comments/
+llm_input_comments/
+stumppdogg_comments/
