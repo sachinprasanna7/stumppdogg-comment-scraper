@@ -186,9 +186,10 @@ To help you understand the exact style, depth, and flavor of questions we look f
 Analyze the new list of comments below and extract the Top 10 best questions for our Q&A segment called #StumpPdogg. Take deep inspiration from the Knowledge Base above regarding the quality and technical level required.
 
 **Selection Criteria:**
-To make the top 10, a comment MUST be a question, and it should meet these conditions:
+To make the top 10, a comment MUST be a question, and it should meet either of the first 3 these conditions and must meet the originality requirement:
 1. **Technical Depth:** Questions that ask for complex technical explanations, deep dives, or advanced problem-solving in cricket.
 2. **Stories & Experiences:** Questions that specifically ask Pdogg to explain old incidents, share past career experiences, or tell stories.
+3. **Recent Events & Controversies:** Questions that relate to recent cricket events, controversies, or hot topics that are currently being discussed in the cricket world.
 3. **Originality (CRITICAL):** Do NOT select a question if it strongly overlaps with a topic already answered in the Knowledge Base above. Be lenient—if it's a completely new angle on a similar topic, it's fine. But avoid obvious duplicates (e.g., if we already answered how rollers affect a pitch, do not pick another generic question about pitch rollers).
 *Note: You can use the "Likes" count as a secondary signal, but question quality and originality are the most important factors.*
 
