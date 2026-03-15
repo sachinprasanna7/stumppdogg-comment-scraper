@@ -93,7 +93,7 @@ def dispatch_stumppdogg_email():
     msg.attach(MIMEText(html_body, 'html'))
 
     try:
-        with smtplib.SMTP_SSL('smtp.gmail.com', 465) as server:
+        with smtplib.SMTP_SSL('smtp.zoho.in', 465) as server:
             server.login(SENDER, PASSWORD)
             server.send_message(msg)
         print(f"Success: Cleaned & bolded email sent for {today_str}")
