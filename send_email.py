@@ -77,7 +77,7 @@ def dispatch_stumppdogg_email():
                 
                 <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #f0f0f0; text-align: center;">
                     <p style="font-size: 11px; color: #bbb;">
-                        Automated Analysis • pdoggspeaks Knowledge Base Integration
+                        Automated Analysis • Pdoggspeaks Knowledge Base Integration
                     </p>
                 </div>
             </div>
