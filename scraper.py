@@ -12,26 +12,23 @@ from send_email import dispatch_stumppdogg_email
 load_dotenv(override=True)
 YT_API_KEY = os.getenv('YOUTUBE_API_KEY')
 CHANNEL_ID = os.getenv('YOUTUBE_CHANNEL_ID')
-OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
 
-if not all([YT_API_KEY, CHANNEL_ID, OPENAI_API_KEY]):
+if not all([YT_API_KEY, CHANNEL_ID]):
     raise ValueError("Missing an API Key or Channel ID in your .env file!")
 
 # Initialize Clients
 youtube = build('youtube', 'v3', developerKey=YT_API_KEY)
-client = OpenAI(api_key=OPENAI_API_KEY)
 
-# Get today's date for file naming (YYYY-MM-DD)
-
-# --- HELPER FUNCTIONS ---
-
-def get_target_videos():
+def get_target_videos(published_before_hours=24, published_after_hours=48):
     """Fetches videos published strictly between 48 and 24 hours ago."""
     now = datetime.now(timezone.utc)
-    published_after = (now - timedelta(hours=48)).isoformat().replace('+00:00', 'Z')
-    published_before = (now - timedelta(hours=24)).isoformat().replace('+00:00', 'Z')
+    published_after = (now - timedelta(hours=published_after_hours)).isoformat().replace('+00:00', 'Z')
+    published_before = (now - timedelta(hours=published_before_hours)).isoformat().replace('+00:00', 'Z')
+
+    published_after_indian_time = (now - timedelta(hours=published_after_hours) + timedelta(hours=5, minutes=30)).strftime("%Y-%m-%d %H:%M:%S")
+    published_before_indian_time = (now - timedelta(hours=published_before_hours) + timedelta(hours=5, minutes=30)).strftime("%Y-%m-%d %H:%M:%S")
     
-    print(f"Searching for videos published between {published_after} and {published_before}...")
+    print(f"Searching for videos published between {published_after_indian_time} and {published_before_indian_time} (Indian Time)...")
     
     request = youtube.search().list(
         part="snippet",
@@ -41,6 +38,7 @@ def get_target_videos():
         type="video",
         maxResults=50
     )
+
     response = request.execute()
     
     videos = []
@@ -81,8 +79,8 @@ def get_video_comments(video_id):
                 )
             else:
                 break
-    except Exception:
-        print(f"  Could not fetch comments for {video_id}.")
+    except Exception as e:
+        print(f"Could not fetch comments for {video_id}: {e}")
     return comments
 
 def sanitize_and_format_title(title):
@@ -92,11 +90,11 @@ def sanitize_and_format_title(title):
 
 # --- PIPELINE STEPS ---
 
-def step_one_scrape_and_save(TODAY_STR):
+def scrape_and_save(TODAY_STR, published_before_hours=24, published_after_hours=48):
     """Grabs comments for the target videos and saves them individually."""
     os.makedirs("comments", exist_ok=True)
-    target_videos = get_target_videos()
-    
+    target_videos = get_target_videos(published_before_hours=published_before_hours, published_after_hours=published_after_hours)
+
     if not target_videos:
         print("No videos found in the 24-48 hour window.")
         return False
@@ -117,7 +115,8 @@ def step_one_scrape_and_save(TODAY_STR):
             print("  No comments found.")
     return True
 
-def step_two_aggregate_comments(TODAY_STR):
+
+def aggregate_comments(TODAY_STR):
     """Scans the comments folder for today's files and combines them."""
     os.makedirs("llm_input_comments", exist_ok=True)
     
