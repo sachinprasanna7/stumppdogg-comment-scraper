@@ -22,7 +22,6 @@ youtube = build('youtube', 'v3', developerKey=YT_API_KEY)
 client = OpenAI(api_key=OPENAI_API_KEY)
 
 # Get today's date for file naming (YYYY-MM-DD)
-TODAY_STR = datetime.now().strftime("%Y-%m-%d")
 
 # --- HELPER FUNCTIONS ---
 
@@ -93,7 +92,7 @@ def sanitize_and_format_title(title):
 
 # --- PIPELINE STEPS ---
 
-def step_one_scrape_and_save():
+def step_one_scrape_and_save(TODAY_STR):
     """Grabs comments for the target videos and saves them individually."""
     os.makedirs("comments", exist_ok=True)
     target_videos = get_target_videos()
@@ -118,7 +117,7 @@ def step_one_scrape_and_save():
             print("  No comments found.")
     return True
 
-def step_two_aggregate_comments():
+def step_two_aggregate_comments(TODAY_STR):
     """Scans the comments folder for today's files and combines them."""
     os.makedirs("llm_input_comments", exist_ok=True)
     
@@ -145,106 +144,3 @@ def step_two_aggregate_comments():
                 
     print(f"\nAggregated all of today's comments into: {aggregated_filepath}")
     return aggregated_filepath
-
-def step_three_call_llm(aggregated_filepath):
-    """Sends the aggregated text to OpenAI and saves the final output."""
-    os.makedirs("stumppdogg_comments", exist_ok=True)
-    
-    # 1. Read today's new comments
-    with open(aggregated_filepath, 'r', encoding='utf-8') as f:
-        raw_comments_data = f.read()
-        
-    # 2. Read the Knowledge Base of past questions
-    past_questions = []
-    kb_path = os.path.join("knowledge_base", "Stumppdogg_Comments.csv")
-    
-    if os.path.exists(kb_path):
-        with open(kb_path, 'r', encoding='utf-8') as f:
-            reader = csv.DictReader(f)
-            # The column name in your CSV is 'Comment'
-            for row in reader:
-                if 'Comment' in row and row['Comment'].strip():
-                    past_questions.append(row['Comment'].strip())
-                    
-        print(f"Loaded {len(past_questions)} previous questions from the Knowledge Base.")
-    else:
-        print("Warning: Knowledge Base CSV not found at knowledge_base/Stumppdogg_Comments.csv")
-        
-    # Format the past questions into a readable list for the prompt
-    past_questions_formatted = "\n".join([f"- {q}" for q in past_questions])
-
-    # 3. Construct the highly-optimized prompt
-    prompt = f"""
-I am providing a raw list of YouTube comments from recent videos on the channel "pdoggspeaks". 
-
-**Context & Knowledge Base:**
-To help you understand the exact style, depth, and flavor of questions we look for, here is a list of previously selected #StumpPdogg questions:
-### PREVIOUSLY ANSWERED QUESTIONS (DO NOT REPEAT THESE TOPICS):
-{past_questions_formatted}
-### END OF PREVIOUSLY ANSWERED QUESTIONS
-
-**Your Task:**
-Analyze the new list of comments below and extract the Top 10 best questions for our Q&A segment called #StumpPdogg. Take deep inspiration from the Knowledge Base above regarding the quality and technical level required.
-
-**Selection Criteria:**
-To make the top 10, a comment MUST be a question, and it should meet either of the first 3 these conditions and must meet the originality requirement:
-1. **Technical Depth:** Questions that ask for complex technical explanations, deep dives, or advanced problem-solving in cricket.
-2. **Stories & Experiences:** Questions that specifically ask Pdogg to explain old incidents, share past career experiences, or tell stories.
-3. **Recent Events & Controversies:** Questions that relate to recent cricket events, controversies, or hot topics that are currently being discussed in the cricket world.
-3. **Originality (CRITICAL):** Do NOT select a question if it strongly overlaps with a topic already answered in the Knowledge Base above. Be lenient—if it's a completely new angle on a similar topic, it's fine. But avoid obvious duplicates (e.g., if we already answered how rollers affect a pitch, do not pick another generic question about pitch rollers).
-*Note: You can use the "Likes" count as a secondary signal, but question quality and originality are the most important factors.*
-
-**Data Structure of New Comments:** The comments are grouped by video. Before each group of comments, there is a header with the video's name enclosed in square brackets, like this:
-[Actual_Video_Name_Here]
-
-Underneath that header, each comment is provided on a single line:
-Author: [Username] | Likes: [Number] | Comment: [Text]
-
-**Output Format:**
-Please provide a clean, numbered list (1 to 10). For each selected question, look at the nearest [Actual_Video_Name_Here] header above the comment to identify the video. Format exactly like this:
-
-**[Number]. Question from [Author] (Likes: [Number]) [From Video: Actual Video Name]**
-* **The Question:** "[Insert the exact question]"
-
-Here is the new comment data to analyze:
-{raw_comments_data}
-"""
-
-    print("Sending data to OpenAI (this might take 10-20 seconds)...")
-    
-    response = client.chat.completions.create(
-        model="gpt-4o-mini",
-        messages=[
-            {"role": "system", "content": "You are an expert cricket analyst and audience researcher for a highly technical YouTube channel."},
-            {"role": "user", "content": prompt}
-        ],
-        temperature=0.7
-    )
-    
-    final_output = response.choices[0].message.content
-    final_filepath = os.path.join("stumppdogg_comments", f"{TODAY_STR}.txt")
-    
-    with open(final_filepath, 'w', encoding='utf-8') as f:
-        f.write(final_output)
-        
-    print(f"\nSUCCESS! Top 10 questions saved to: {final_filepath}")
-
-# --- MAIN EXECUTION ---
-if __name__ == "__main__":
-    print(f"--- Starting StumpPdogg Daily Run for {TODAY_STR} ---")
-    
-    # 1. Scrape
-    videos_found = step_one_scrape_and_save()
-    
-    if videos_found:
-        # 2. Aggregate
-        aggregated_file = step_two_aggregate_comments()
-        
-        if aggregated_file:
-            # 3. Get LLM Output
-            step_three_call_llm(aggregated_file)
-
-            # 4. Dispatch Email
-            dispatch_stumppdogg_email()
-            
-    print("--- Run Complete ---")

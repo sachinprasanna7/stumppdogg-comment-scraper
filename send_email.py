@@ -47,7 +47,7 @@ def dispatch_stumppdogg_email():
     
     today_str = datetime.now().strftime("%Y-%m-%d")
     pretty_date = datetime.now().strftime("%d %b %Y")
-    file_path = os.path.join("stumppdogg_comments", f"{today_str}.txt")
+    file_path = os.path.join("corrected_stumppdogg_comments", f"{today_str}.txt")
     
     if not os.path.exists(file_path):
         print(f"Error: Could not find today's file at {file_path}")
@@ -100,5 +100,5 @@ def dispatch_stumppdogg_email():
     except Exception as e:
         print(f"Email failed: {e}")
 
-if __name__ == "__main__":
-    dispatch_stumppdogg_email()
+# if __name__ == "__main__":
+#     dispatch_stumppdogg_email()
