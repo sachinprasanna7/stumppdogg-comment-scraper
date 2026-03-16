@@ -13,8 +13,9 @@ def main():
     # MAIN CONFIGS
     published_before_hours = 24
     published_after_hours = 48
-    
-    Step 1: Scrape YouTube
+
+
+    # Step 1: Scrape YouTube
     videos_found = scrape_and_save(TODAY_STR, published_before_hours, published_after_hours)
     if not videos_found:
         print("Pipeline stopped: No recent videos found.")
@@ -32,14 +33,14 @@ def main():
         print("Pipeline stopped: LLM processing failed.")
         return
 
-    # # Step 4: Validate and Fix Hallucinations
-    # is_valid = validate_and_fix_stumppdogg(TODAY_STR)
-    # if not is_valid:
-    #     print("Pipeline stopped: Validation failed.")
-    #     return
+    # Step 4: Validate and Fix Hallucinations
+    is_valid = validate_and_fix_stumppdogg(TODAY_STR)
+    if not is_valid:
+        print("Pipeline stopped: Validation failed.")
+        return
 
     # Step 5: Dispatch the Email
-    #dispatch_stumppdogg_email()
+    dispatch_stumppdogg_email()
     
     print("--- Pipeline Complete ---")
 
