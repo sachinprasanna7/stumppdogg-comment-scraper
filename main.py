@@ -5,6 +5,7 @@ from scraper import scrape_and_save, aggregate_comments
 from llm_processor import call_llm
 from validator import validate_and_fix_stumppdogg
 from send_email import dispatch_stumppdogg_email
+from kb_updater import update_knowledge_base
 
 TODAY_STR = datetime.now().strftime("%Y-%m-%d")
 
@@ -34,7 +35,6 @@ def main():
     published_before_hours = 24
     published_after_hours = 48
 
-
     # Step 1: Scrape YouTube
     videos_found = scrape_and_save(TODAY_STR, published_before_hours, published_after_hours)
     if not videos_found:
@@ -46,6 +46,9 @@ def main():
     if not aggregated_file:
         print("Pipeline stopped: No comments to aggregate.")
         return
+
+    # Step 2.5: Update the Knowledge Base
+    kb_updated = update_knowledge_base()
 
     # Step 3: Run GPT-5
     llm_output_file = call_llm(aggregated_file, TODAY_STR)
