@@ -33,6 +33,7 @@ YOUTUBE-COMMENT-SCRAPER/
 ├── stumppdogg_comments/              # Raw output directly from GPT-5
 ├── corrected_stumppdogg_comments/    # Validated & fixed output (Final text)
 └── logs/                             # Daily execution logs
+```
 
 
 ## ⚙️ The Pipeline Workflow
