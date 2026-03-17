@@ -52,7 +52,7 @@ Underneath that header, each comment is provided on a single line:
 Author: [Username] | Likes: [Number] | Comment: [Text]
 
 **Output Format:**
-Please provide a clean, numbered list (1 to 10). For each selected question, look at the nearest [Actual_Video_Name_Here] header above the comment to identify the video. Do not add any additional text or formatting beyond what is requested. The output should look exactly like this:
+Please provide a clean, numbered list (1 to 10). For each selected question, look at the nearest [Actual_Video_Name_Here] header above the comment to identify the video. Do not add any additional text or formatting beyond what is requested. Also, make sure to get the exact question text as it is from raw comments data I am providing you below. Do not summarize or rephrase the questions—provide them exactly as they appear. The output should look exactly like this:
 
 **[Number]. Question from [Author] (Likes: [Number]) [From Video: Actual Video Name]**
 * **The Question:** "[Insert the exact question]"
