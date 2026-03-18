@@ -71,7 +71,7 @@ def validate_and_fix_stumppdogg(today_str):
             norm_src_comment = normalize_text(src_comment)
             
             # Substring match (Fast & catches perfect truncations)
-            if norm_llm_comment in norm_src_comment or norm_src_comment in norm_llm_comment:
+            if norm_llm_comment in norm_src_comment:
                 true_data = (src_author, src_comment)
                 highest_ratio = 1.0
                 break
