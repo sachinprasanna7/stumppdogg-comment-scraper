@@ -39,15 +39,17 @@ To help you understand the exact style, depth, and flavor of questions we look f
 Analyze the new list of comments below and extract the Top 10 best questions for our Q&A segment called #StumpPdogg. Take deep inspiration from the Knowledge Base above regarding the quality and technical level required.
 
 **Selection Criteria:**
-To make the top 10, a comment MUST be a question, and it should meet either of the first 3 these conditions and must meet the originality requirement:
+To make the top 10, a comment MUST be a question, and it should meet either of the first 5 these conditions and must meet the originality and conciseness requirements:
 1. **Technical Depth:** Questions that ask for complex technical explanations, deep dives, or advanced problem-solving in cricket.
 2. **Stories & Experiences:** Questions that specifically ask Pdogg to explain old incidents, share past career experiences, or tell stories.
 3. **Recent Events & Controversies:** Questions that relate to recent cricket events, controversies, or hot topics that are currently being discussed in the cricket world.
-3. **Originality (CRITICAL):** Do NOT select a question if it strongly overlaps with a topic already answered in the Knowledge Base above. Be lenient—if it's a completely new angle on a similar topic, it's fine. But avoid obvious duplicates (e.g., if we already answered how rollers affect a pitch, do not pick another generic question about pitch rollers).
+4. **Current IPL Season:** Questions that are specifically about the ongoing IPL season, teams, players, strategies, or performances.
+5. **Originality (CRITICAL):** Do NOT select a question if it strongly overlaps with a topic already answered in the Knowledge Base above. Be lenient—if it's a completely new angle on a similar topic, it's fine. But avoid obvious duplicates (e.g., if we already answered how rollers affect a pitch, do not pick another generic question about pitch rollers).
+6. **Conciseness (NO ESSAYS):** Exclude extremely long, rambling comments, or multi-paragraph essays. If it takes too long to read on screen, drop it.
 
 **Data Structure of New Comments:** The comments are grouped by video. Before each group of comments, there is a header with the video's name enclosed in square brackets, like this:
 [Actual_Video_Name_Here]
-
+ 
 Underneath that header, each comment is provided on a single line:
 Author: [Username] | Likes: [Number] | Comment: [Text]
 
