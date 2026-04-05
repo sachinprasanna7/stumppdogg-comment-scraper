@@ -32,8 +32,8 @@ def main():
     print(f"\n[{current_time}] --- Starting #StumpPdogg Daily Pipeline for {TODAY_STR} ---")
 
     # MAIN CONFIGS
-    published_before_hours = 24
-    published_after_hours = 48
+    published_before_hours = 0
+    published_after_hours = 24
 
     # Step 1: Scrape YouTube
     videos_found = scrape_and_save(TODAY_STR, published_before_hours, published_after_hours)
