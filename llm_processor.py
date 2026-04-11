@@ -46,6 +46,7 @@ To make the top 10, a comment MUST be a question, and it should meet either of t
 4. **Current IPL Season:** Questions that are specifically about the ongoing IPL season, teams, players, strategies, or performances.
 5. **Originality (CRITICAL):** Do NOT select a question if it strongly overlaps with a topic already answered in the Knowledge Base above. Be lenient—if it's a completely new angle on a similar topic, it's fine. But avoid obvious duplicates (e.g., if we already answered how rollers affect a pitch, do not pick another generic question about pitch rollers).
 6. **Conciseness (NO ESSAYS):** Exclude extremely long, rambling comments, or multi-paragraph essays. If it takes too long to read on screen, drop it.
+7. **Language**: The question must be in English.
 
 **Data Structure of New Comments:** The comments are grouped by video. Before each group of comments, there is a header with the video's name enclosed in square brackets, like this:
 [Actual_Video_Name_Here]

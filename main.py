@@ -33,7 +33,7 @@ def main():
 
     # MAIN CONFIGS
     published_before_hours = 0
-    published_after_hours = 24
+    published_after_hours = 48
 
     # Step 1: Scrape YouTube
     videos_found = scrape_and_save(TODAY_STR, published_before_hours, published_after_hours)
